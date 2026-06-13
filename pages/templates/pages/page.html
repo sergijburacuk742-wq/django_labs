@@ -3,20 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; background-color: #f4f4f9; }
+
+        /* Дизайн Хедера */
+        header { background-color: #2c3e50; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        header a { color: #ecf0f1; text-decoration: none; margin-right: 15px; font-weight: bold; font-size: 16px; }
+        header a:hover { color: #3498db; }
+        .categories-menu { background-color: #34495e; padding: 10px 30px; }
+        .categories-menu a { color: #bdc3c7; text-decoration: none; margin-right: 15px; }
+        .categories-menu a:hover { color: white; }
+
+        /* Дизайн основного контенту */
+        .container { flex: 1; padding: 30px; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+        /* Дизайн карток товарів */
+        .product-grid { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px; }
+        .product-card { background: white; border: 1px solid #ddd; padding: 20px; border-radius: 8px; width: 260px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .product-title { font-size: 1.2em; font-weight: bold; margin-bottom: 10px; }
+        .product-price { color: #27ae60; font-size: 1.4em; font-weight: bold; margin-top: 15px; }
+
+        /* Дизайн Футера */
+        footer { background-color: #2c3e50; color: #bdc3c7; text-align: center; padding: 20px; margin-top: auto; }
+    </style>
 </head>
 <body>
-    <h1>{{ heading }}</h1>
-    <p>{{ content }}</p>
 
-    <hr>
+    <header>
+        <div class="logo">
+            <a href="{% url 'home' %}" style="font-size: 22px;">🛋️ Меблевий Рай</a>
+        </div>
+        <nav>
+            <a href="{% url 'home' %}">Головна</a>
+            <a href="{% url 'about' %}">Про нас</a>
+            <a href="{% url 'contacts' %}">Контакти</a>
+        </nav>
+    </header>
+
     {% if is_home %}
-        <p>Посилання на інші сторінки:</p>
-        <ul>
-            <li><a href="{% url 'about' %}">Про нас</a></li>
-            <li><a href="{% url 'contacts' %}">Контакти</a></li>
-        </ul>
-    {% else %}
-        <a href="{% url 'home' %}">← Назад на Головну сторінку</a>
+    <div class="categories-menu">
+        <span style="color: white; margin-right: 10px;">Категорії:</span>
+        <a href="{% url 'home' %}">Всі товари</a>
+        {% for cat in categories %}
+            <a href="{% url 'home' %}?category={{ cat.id }}">{{ cat.name }}</a>
+        {% endfor %}
+    </div>
     {% endif %}
+
+    <div class="container">
+        <h1>{{ title }}</h1>
+
+        {% if is_home %}
+            <div class="product-grid">
+                {% for product in products %}
+                    <div class="product-card">
+                        <div class="product-title">{{ product.title }}</div>
+                        <div>Категорія: <b>{{ product.category.name }}</b></div>
+                        <div>Бренд: <b>{{ product.brand.name }}</b></div>
+                        <div class="product-price">{{ product.price }} грн</div>
+                    </div>
+                {% empty %}
+                    <p>Товарів не знайдено. Додайте їх через адмінку!</p>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>{{ content }}</p>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Магазин "Меблевий Рай". Всі права захищені.</p>
+        <p>Приєднуйтесь до нас у соцмережах | Email: support@furniture.com</p>
+    </footer>
+
 </body>
 </html>
