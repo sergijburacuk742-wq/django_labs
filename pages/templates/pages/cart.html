@@ -4,50 +4,62 @@
     <meta charset="UTF-8">
     <title>{{ title }}</title>
     <style>
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; color: #334155; }
-        header { background-color: #1e293b; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
-        header a { color: white; text-decoration: none; font-weight: bold; }
-        .container { flex: 1; max-width: 800px; margin: 40px auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
-        .cart-item { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
-        .total { text-align: right; font-size: 1.5em; font-weight: bold; margin: 25px 0; color: #1e293b; }
-        .order-form { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-top: 20px; }
-        .order-form input { width: 100%; padding: 14px; border-radius: 8px; border: 1px solid #cbd5e1; margin-bottom: 20px; box-sizing: border-box; font-size: 16px; outline: none; transition: 0.3s; }
-        .order-form input:focus { border-color: #10b981; }
-        .checkout-btn { width: 100%; padding: 16px; background: #10b981; color: white; border: none; border-radius: 12px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .checkout-btn:hover { background: #059669; transform: translateY(-2px); }
+        html, body {
+            margin: 0 !important; padding: 0 !important;
+            background: linear-gradient(to bottom, #3b3f4c 0%, #22252e 100%);
+            background-attachment: fixed; font-family: 'Inter', sans-serif;
+            min-height: 100vh; display: flex; flex-direction: column; color: #f8fafc;
+        }
+        header { background-color: transparent !important; margin: 0 !important; width: 100%; padding: 30px 5%; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; }
+        .logo a { font-size: 26px; font-weight: 900; letter-spacing: 2px; color: white; text-decoration: none; text-transform: uppercase; margin: 0;}
+        header a:not(.logo a) { color: #cbd5e1; text-decoration: none; font-weight: 500; transition: color 0.3s;}
+        header a:not(.logo a):hover { color: white; }
+
+        .container { flex: 1; max-width: 800px; margin: 0 auto; padding: 20px 20px 60px; width: 100%; box-sizing: border-box; }
+        .cart-item { background: #2a2d37; padding: 25px; border-radius: 16px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); }
+        .total { text-align: right; font-size: 1.5em; font-weight: bold; margin: 30px 0; color: white; }
+
+        .order-form { background: #2a2d37; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); margin-top: 20px; }
+        .order-form input { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: #1a1c24; color: white; margin-bottom: 25px; box-sizing: border-box; font-size: 16px; outline: none; transition: 0.3s; }
+        .order-form input:focus { border-color: white; }
+
+        .checkout-btn { width: 100%; padding: 18px; background: white; color: #0f172a; border: none; border-radius: 12px; font-size: 1.2em; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .checkout-btn:hover { background: #cbd5e1; transform: translateY(-3px); }
     </style>
 </head>
 <body>
     <header>
-        <a href="{% url 'home' %}" style="font-size: 24px;">Меблі Волинь</a>
+        <div class="logo"><a href="{% url 'home' %}">STALLINE</a></div>
         <a href="{% url 'home' %}">← На головну</a>
     </header>
 
     <div class="container">
-        <h1>🛒 Ваш кошик</h1>
+        <h1 style="color: white;">Ваш кошик</h1>
         {% if products %}
             {% for product in products %}
                 <div class="cart-item">
                     <div>
-                        <h3 style="margin: 0 0 5px 0;">{{ product.title }}</h3>
-                        <span style="color: #64748b;">{{ product.category.name }}</span>
+                        <h3 style="margin: 0 0 8px 0; font-size: 1.3em;">{{ product.title }}</h3>
+                        <span style="color: #94a3b8;">{{ product.category.name }}</span>
                     </div>
-                    <h2 style="margin: 0; color: #3b82f6;">{{ product.price }} ₴</h2>
+                    <h2 style="margin: 0; color: white;">{{ product.price }} ₴</h2>
                 </div>
             {% endfor %}
             <div class="total">Разом до сплати: <span style="color: #10b981;">{{ total_price }} ₴</span></div>
+
             <div class="order-form">
+                <h3 style="margin-top: 0;">Оформлення замовлення</h3>
                 <form action="{% url 'checkout' %}" method="POST">
                     {% csrf_token %}
-                    <label style="display:block; margin-bottom:10px; font-weight:bold;">Ваш телефон для підтвердження:</label>
+                    <label style="display:block; margin-bottom:10px; font-weight:bold; color: #cbd5e1;">Телефон для зв'язку:</label>
                     <input type="text" name="phone" placeholder="+380XXXXXXXXX" required>
                     <button type="submit" class="checkout-btn">Підтвердити замовлення</button>
                 </form>
             </div>
         {% else %}
-            <div style="text-align: center; padding: 60px 20px; background: white; border-radius: 12px; border: 1px solid #e2e8f0;">
-                <h2>Кошик порожній 😔</h2>
-                <a href="{% url 'home' %}" style="display: inline-block; padding: 12px 25px; background: #3b82f6; color: white; text-decoration: none; border-radius: 8px; margin-top: 15px;">Перейти до каталогу</a>
+            <div style="text-align: center; padding: 80px 20px; background: #2a2d37; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);">
+                <h2 style="color: white; margin-bottom: 25px;">Кошик порожній</h2>
+                <a href="{% url 'home' %}" style="display: inline-block; padding: 14px 30px; background: white; color: #0f172a; text-decoration: none; border-radius: 10px; font-weight: bold;">Перейти до каталогу</a>
             </div>
         {% endif %}
     </div>

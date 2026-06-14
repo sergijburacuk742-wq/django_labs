@@ -4,45 +4,59 @@
     <meta charset="UTF-8">
     <title>{{ title }}</title>
     <style>
-        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: #f8fafc; display: flex; flex-direction: column; min-height: 100vh; color: #1e293b;}
-        header { background-color: #0f172a; color: white; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; }
-        header a { color: #cbd5e1; text-decoration: none; margin-right: 20px; font-weight: 500; transition: 0.3s;}
-        header a:hover { color: white; }
-        .logo a { font-size: 24px; font-weight: 800; letter-spacing: 1px; color: white; margin: 0;}
+        html, body {
+            margin: 0 !important; padding: 0 !important;
+            background: linear-gradient(to bottom, #3b3f4c 0%, #22252e 100%);
+            background-attachment: fixed; font-family: 'Inter', sans-serif;
+            min-height: 100vh; display: flex; flex-direction: column; color: #f8fafc;
+        }
 
-        .container { flex: 1; padding: 40px 5%; max-width: 1200px; margin: 0 auto; width: 100%; box-sizing: border-box;}
-        .back-link { text-decoration: none; color: #64748b; font-weight: 500; display: inline-block; margin-bottom: 30px; transition: 0.3s;}
-        .back-link:hover { color: #0f172a; }
+        header { background-color: transparent !important; margin: 0 !important; width: 100%; padding: 30px 5%; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; }
+        .logo a { font-size: 26px; font-weight: 900; letter-spacing: 2px; color: white; text-decoration: none; text-transform: uppercase; margin: 0;}
+        nav { display: flex; align-items: center; gap: 20px;}
+        nav a { color: #cbd5e1; text-decoration: none; font-weight: 500; transition: color 0.3s;}
+        nav a:hover { color: white; }
+        .cart-btn { background: white; color: #0f172a !important; padding: 10px 20px; border-radius: 8px; font-weight: bold;}
+        .cart-btn:hover { background: #e2e8f0; }
 
-        .product-wrapper { display: flex; gap: 50px; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
-        .product-image { flex: 1; }
-        .product-image img { width: 100%; border-radius: 12px; object-fit: cover; }
+        .container { flex: 1; padding: 20px 5% 60px; max-width: 1200px; margin: 0 auto; width: 100%; box-sizing: border-box;}
+        .back-link { text-decoration: none; color: #94a3b8; font-weight: 600; display: inline-block; margin-bottom: 30px; transition: 0.3s;}
+        .back-link:hover { color: white; transform: translateX(-5px); }
+
+        .product-wrapper { display: flex; gap: 50px; background: #2a2d37; padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 1px solid rgba(255, 255, 255, 0.05); }
         .product-info { flex: 1; display: flex; flex-direction: column;}
+        h1 { margin-top: 0; font-size: 2.5em; color: white; margin-bottom: 15px;}
+        .meta-info { font-size: 1.1em; color: #94a3b8; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;}
+        .description-box { font-size: 1.1em; line-height: 1.7; color: #cbd5e1; margin-bottom: 30px; white-space: pre-line; }
+        .price { font-size: 2.8em; color: white; font-weight: 800; margin-bottom: 30px; }
 
-        h1 { margin-top: 0; font-size: 2.5em; color: #0f172a; margin-bottom: 15px;}
-        .meta-info { font-size: 1.1em; color: #64748b; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 20px;}
+        .buy-btn { background: white; color: #0f172a; border: none; padding: 18px 40px; font-size: 1.2em; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);}
+        .buy-btn:hover { background: #cbd5e1; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);}
 
-        /* Стиль для опису, який ви вводите в адмінці */
-        .description-box { font-size: 1.1em; line-height: 1.7; color: #334155; margin-bottom: 30px; white-space: pre-line; }
+        .rating-box { background: #1a1c24; padding: 25px; border-radius: 16px; margin-top: 30px; border: 1px solid rgba(255,255,255,0.05); }
+        .rating-box input { padding: 10px; width: 80px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; font-size: 16px; background: #2a2d37; color: white; outline: none;}
+        .rating-btn { padding: 10px 20px; background: white; color: #0f172a; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s;}
+        .rating-btn:hover { background: #cbd5e1; }
 
-        .price { font-size: 2.5em; color: #10b981; font-weight: 800; margin-bottom: 30px; }
+        footer { background-color: #1a1c24; color: #64748b; text-align: center; padding: 40px 5%; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); }
 
-        .buy-btn { background: #0f172a; color: white; border: none; padding: 18px 40px; font-size: 1.2em; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s;}
-        .buy-btn:hover { background: #334155; transform: translateY(-2px);}
-
-        .rating-box { background: #f8fafc; padding: 25px; border-radius: 12px; margin-top: 30px; border: 1px solid #e2e8f0; }
-        .rating-box input { padding: 10px; width: 80px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 16px;}
-        .rating-btn { padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-
-        footer { background-color: #0f172a; color: #94a3b8; text-align: center; padding: 30px 5%; margin-top: auto; }
+        /* Стилі для плавної галереї */
+        .product-image { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+        .main-image-wrapper { position: relative; width: 100%; height: 450px; border-radius: 16px; overflow: hidden; background: #1e2029; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); }
+        #main-image { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out; }
+        .gallery { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 5px; }
+        .thumb { width: 85px; height: 85px; object-fit: cover; border-radius: 12px; cursor: pointer; border: 2px solid transparent; transition: all 0.3s ease; opacity: 0.5; }
+        .thumb:hover { opacity: 1; transform: translateY(-3px); }
+        .thumb.active { border-color: white; opacity: 1; transform: scale(1.05); }
     </style>
 </head>
 <body>
+
     <header>
         <div class="logo"><a href="{% url 'home' %}">STALLINE</a></div>
         <nav>
             <a href="{% url 'home' %}">Каталог</a>
-            <a href="{% url 'cart' %}" style="background: white; color: #0f172a; padding: 8px 15px; border-radius: 6px; font-weight: bold;">Кошик ({{ cart_count }})</a>
+            <a href="{% url 'cart' %}" class="cart-btn">Кошик ({{ cart_count }})</a>
         </nav>
     </header>
 
@@ -51,42 +65,50 @@
 
         <div class="product-wrapper">
             <div class="product-image">
-                {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.title }}">
-                {% else %}
-                    <div style="background: #e2e8f0; height: 400px; display:flex; align-items:center; justify-content:center; border-radius: 12px; color: #64748b;">Зображення відсутнє</div>
-                {% endif %}
+                <div class="main-image-wrapper">
+                    {% if product.image %}
+                        <img id="main-image" src="{{ product.image.url }}" alt="{{ product.title }}">
+                    {% else %}
+                        <div style="display:flex; align-items:center; justify-content:center; height:100%; color:#475569;">Зображення відсутнє</div>
+                    {% endif %}
+                </div>
+                <div class="gallery">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="thumb active" onclick="changeImage(this, '{{ product.image.url }}')">
+                    {% endif %}
+                    {% for img in product.images.all %}
+                        <img src="{{ img.image.url }}" class="thumb" onclick="changeImage(this, '{{ img.image.url }}')">
+                    {% endfor %}
+                </div>
             </div>
 
             <div class="product-info">
                 <h1>{{ product.title }}</h1>
                 <div class="meta-info">
-                    <p style="margin: 5px 0;">Категорія: <b style="color: #0f172a;">{{ product.category.name }}</b> | Бренд: <b style="color: #0f172a;">{{ product.brand.name }}</b></p>
-                    <p style="margin: 5px 0; color: #f59e0b;">Середній бал: <b>{{ avg_rating }} / 5</b></p>
+                    <p style="margin: 5px 0;">Категорія: <b style="color: white;">{% if product.category %}{{ product.category.name }}{% else %}Без категорії{% endif %}</b> | Бренд: <b style="color: white;">{% if product.brand %}{{ product.brand.name }}{% else %}Без бренду{% endif %}</b></p>
+                    <p style="margin: 5px 0;">Середній бал: <b style="color: #f59e0b;">{{ avg_rating }} / 5</b></p>
                 </div>
 
-                <!-- ВИТЯГУЄМО ОПИС З АДМІНКИ -->
                 <div class="description-box">
                     {% if product.description %}
                         {{ product.description }}
                     {% else %}
-                        <p style="color: #94a3b8; font-style: italic;">Опис для цього товару формується. Деталі можна уточнити у менеджера.</p>
+                        <p style="color: #64748b; font-style: italic;">Опис для цього товару формується. Деталі можна уточнити у менеджера.</p>
                     {% endif %}
                 </div>
 
                 <div class="price">{{ product.price }} ₴</div>
 
-                <!-- КНОПКА БЕЗ ЕМОДЗІ -->
                 <form action="{% url 'add_to_cart' product.id %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="buy-btn">Додати в кошик</button>
                 </form>
 
                 <div class="rating-box">
-                    <h3 style="margin-top: 0; color: #0f172a;">Оцінити товар</h3>
+                    <h3 style="margin-top: 0; color: white;">Оцінити товар</h3>
                     <form method="POST">
                         {% csrf_token %}
-                        <label style="font-weight: 500; margin-right: 10px;">Ваша оцінка (1-5):</label>
+                        <label style="font-weight: 500; margin-right: 10px; color: #cbd5e1;">Ваша оцінка (1-5):</label>
                         <input type="number" name="rating" min="1" max="5" required>
                         <button type="submit" class="rating-btn">Відправити</button>
                     </form>
@@ -98,5 +120,19 @@
     <footer>
         <p>&copy; 2026 StalLine. Телефон: +380981771025 | Email: neblivolyn@gmail.com</p>
     </footer>
+
+    <script>
+        function changeImage(element, newSrc) {
+            const mainImg = document.getElementById('main-image');
+            if (!mainImg) return;
+            mainImg.style.opacity = '0';
+            setTimeout(() => {
+                mainImg.src = newSrc;
+                mainImg.style.opacity = '1';
+            }, 150);
+            document.querySelectorAll('.thumb').forEach(thumb => thumb.classList.remove('active'));
+            element.classList.add('active');
+        }
+    </script>
 </body>
 </html>

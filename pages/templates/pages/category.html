@@ -2,124 +2,204 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <style>
-        :root { --primary: #3b82f6; --dark: #1e293b; --light: #f8fafc; --text: #334155; --accent: #10b981; }
-        body { font-family: 'Inter', system-ui, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; background-color: var(--light); color: var(--text); }
+        /* 1. ГЛИБОКИЙ ТЕМНИЙ ФОН ЯК НА МАКЕТІ */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: linear-gradient(to bottom, #3b3f4c 0%, #22252e 100%);
+            background-attachment: fixed;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #f8fafc; /* Світлий текст */
+        }
 
-        /* Хедер */
-        header { background-color: var(--dark); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100;}
-        header a { color: #cbd5e1; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.3s; }
-        header a:hover { color: white; }
-        .logo a { font-size: 24px; font-weight: 700; color: white; margin: 0; }
-        .cart-btn { background: var(--primary); padding: 8px 15px; border-radius: 8px; color: white!important; font-weight: bold; }
+        /* 2. ШАПКА, ЯКА ЗЛИВАЄТЬСЯ З ФОНОМ */
+        header {
+            background-color: transparent !important;
+            margin: 0 !important;
+            width: 100%;
+            padding: 30px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
 
-        /* Меню категорій */
-        .categories-menu { background: white; padding: 15px 5%; border-bottom: 1px solid #e2e8f0; display: flex; gap: 15px; overflow-x: auto; }
-        .categories-menu a { color: var(--text); text-decoration: none; padding: 6px 12px; border-radius: 20px; background: #e2e8f0; font-size: 14px; transition: 0.3s; white-space: nowrap; }
-        .categories-menu a:hover { background: var(--primary); color: white; }
+        .logo a { font-size: 26px; font-weight: 900; letter-spacing: 2px; color: white; text-decoration: none; text-transform: uppercase; margin: 0;}
 
-        /* Банер */
-        .hero { background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%); color: white; padding: 60px 5%; text-align: center; border-radius: 16px; margin: 20px 5%; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        .hero h2 { font-size: 2.5em; margin: 0 0 15px 0; }
+        nav { display: flex; align-items: center; gap: 20px;}
+        nav a { color: #cbd5e1; text-decoration: none; font-weight: 500; transition: color 0.3s;}
+        nav a:hover { color: white; }
 
-        /* Контент */
-        .container { flex: 1; padding: 20px 5%; max-width: 1400px; margin: 0 auto; width: 90%; }
-        .content-box { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); font-size: 1.1em; line-height: 1.6; white-space: pre-line;}
+        /* БІЛА КНОПКА КОШИКА ЯК НА МАКЕТІ */
+        .cart-btn { background: white; color: #0f172a !important; padding: 10px 20px; border-radius: 8px; font-weight: bold;}
+        .cart-btn:hover { background: #e2e8f0; }
 
-        /* Картки */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
-        .product-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column;}
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        .product-img { width: 100%; height: 220px; object-fit: cover; border-radius: 12px; margin-bottom: 15px; }
-        .product-title { font-size: 1.2em; font-weight: 700; margin-bottom: 5px; color: var(--dark); }
-        .product-price { color: var(--accent); font-size: 1.5em; font-weight: 800; margin: 15px 0; }
-        .detail-btn { background-color: var(--light); color: var(--dark); text-align: center; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: 0.3s; margin-top: auto; border: 1px solid #e2e8f0;}
-        .detail-btn:hover { background-color: var(--primary); color: white; border-color: var(--primary);}
+        .container { flex: 1; padding: 20px 5% 60px; max-width: 1200px; margin: 0 auto; width: 100%; box-sizing: border-box;}
 
-        /* Футер */
-        footer { background-color: var(--dark); color: #94a3b8; text-align: center; padding: 40px 5%; margin-top: auto; border-top: 4px solid var(--primary);}
-        .subscribe-form { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
-        .subscribe-form input { padding: 12px 20px; border-radius: 8px; border: none; width: 250px; outline: none; }
-        .subscribe-form button { padding: 12px 25px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s;}
-        .subscribe-form button:hover { background: #2563eb; }
+        /* ТЕМНИЙ БЛОК БАНЕРА */
+        .hero {
+            background: #2a2d37;
+            color: white;
+            padding: 80px 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        .hero h1 { font-size: 3.5em; margin-top: 0; margin-bottom: 20px; font-weight: 700; letter-spacing: -0.5px;}
+        .hero p { font-size: 1.2em; color: #94a3b8; max-width: 800px; margin: 0 auto; line-height: 1.6;}
+
+        /* БІЛІ КНОПКИ КАТЕГОРІЙ ІЗ ТЕПЛИМ СВІТІННЯМ НА ФОНІ */
+        .categories-wrapper { position: relative; margin-bottom: 50px; padding: 20px 0; }
+        .categories-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            height: 120px;
+            background: radial-gradient(ellipse, rgba(210, 170, 120, 0.15) 0%, transparent 60%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .categories { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .cat-link {
+            padding: 12px 30px;
+            background: white;
+            color: #0f172a;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .cat-link:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255,255,255,0.15); }
+
+        /* КАРТКИ ТОВАРІВ (ТЕМНИЙ СТИЛЬ) */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        .product-card {
+            background: #2a2d37;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover { transform: translateY(-8px); }
+        .product-card img { width: 100%; height: 300px; object-fit: cover; }
+
+        .product-info { padding: 25px; display: flex; flex-direction: column; flex: 1; }
+        .product-title { font-size: 1.4em; margin: 0 0 10px 0; color: white; font-weight: 700; }
+        .product-cat { color: #94a3b8; font-size: 0.9em; margin-bottom: 15px; }
+        .product-price { font-size: 1.6em; font-weight: 800; color: white; margin-bottom: 20px; margin-top: auto; }
+
+        /* Кнопка на картці тепер біла, щоб пасувати до категорій */
+        .details-btn { display: block; text-align: center; background: white; color: #0f172a; text-decoration: none; padding: 14px; border-radius: 12px; font-weight: bold; transition: background 0.3s; }
+        .details-btn:hover { background: #cbd5e1; }
+
+        /* СТАТИЧНИЙ КОНТЕНТ (Про нас, Контакти) */
+        .content-box { background: #2a2d37; padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); font-size: 1.1em; line-height: 1.8; white-space: pre-line;}
+
+        /* ТЕМНИЙ ФУТЕР */
+        footer { background-color: #1a1c24; color: #64748b; text-align: center; padding: 40px 5%; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); }
+        .subscribe-form { margin-top: 20px; display: flex; justify-content: center; gap: 10px;}
+        .subscribe-form input { padding: 14px 20px; width: 280px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: #2a2d37; color: white; outline: none; font-size: 16px;}
+        .subscribe-form button { padding: 14px 30px; background: white; color: #0f172a; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s;}
+        .subscribe-form button:hover { background: #cbd5e1; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo"><a href="{% url 'home' %}">Меблі Волинь</a></div>
-    <nav>
-    <a href="{% url 'home' %}">Головна</a>
-    <a href="{% url 'about' %}">Про нас</a>
-    <a href="{% url 'contacts' %}">Контакти</a>
+        <div class="logo"><a href="{% url 'home' %}">STALLINE</a></div>
+        <nav>
+            <a href="{% url 'home' %}">Головна</a>
+            <a href="{% url 'about' %}">Про нас</a>
+            <a href="{% url 'contacts' %}">Контакти</a>
 
-    {% if user.is_authenticated %}
-        <a href="{% url 'profile' %}" style="color: #60a5fa;">👤 Кабінет ({{ user.username }})</a>
-        <form action="{% url 'logout' %}" method="POST" style="display:inline; margin-left:15px;">
-            {% csrf_token %}
-            <button type="submit" style="background:none; border:none; color:#cbd5e1; font-weight:500; cursor:pointer; font-size:16px;">🚪 Вийти</button>
-        </form>
-    {% else %}
-        <a href="{% url 'login' %}">🔑 Увійти</a>
-        <a href="{% url 'register' %}">📝 Реєстрація</a>
-    {% endif %}
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}" style="color: #60a5fa;">Кабінет ({{ user.username }})</a>
+                <form action="{% url 'logout' %}" method="POST" style="display:inline; margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none; border:none; color:#cbd5e1; font-weight:500; cursor:pointer; font-size:16px; margin:0; padding:0; transition:0.3s;">Вийти</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Увійти</a>
+                <a href="{% url 'register' %}">Реєстрація</a>
+            {% endif %}
 
-    <a href="{% url 'cart' %}" class="cart-btn">🛒 Кошик ({{ cart_count }})</a>
-</nav>
+            <a href="{% url 'cart' %}" class="cart-btn">Кошик ({{ cart_count }})</a>
+        </nav>
     </header>
 
-    {% if is_home %}
-    <div class="categories-menu">
-        <span style="font-weight: 600; padding: 6px 0;">Каталог:</span>
-        <a href="{% url 'home' %}">Всі меблі</a>
-        {% for cat in categories %}
-            <a href="{% url 'category' cat.id %}">{{ cat.name }}</a>
-        {% endfor %}
-    </div>
-
-    <div class="hero">
-        <h2>Створюємо затишок у вашому домі</h2>
-        <p style="font-size: 1.2em; max-width: 600px; margin: 0 auto; opacity: 0.9;">7 видів унікальних меблів преміум-якості від волинських майстрів.</p>
-    </div>
-    {% endif %}
-
     <div class="container">
+
         {% if is_home %}
-            <div class="product-grid">
+            <div class="hero">
+                <h1>Ексклюзивні меблі від StalLine</h1>
+                <p>Поєднання надійного металу та благородного дерева. Ми створюємо унікальні вироби ручної роботи, які підкреслять статус вашого інтер'єру.</p>
+            </div>
+
+            <div class="categories-wrapper">
+                <div class="categories">
+                    <a href="{% url 'home' %}" class="cat-link">Всі товари</a>
+                    {% for cat in categories %}
+                        <a href="{% url 'category' cat.id %}" class="cat-link">{{ cat.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="products-grid">
                 {% for product in products %}
                     <div class="product-card">
                         {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-img">
+                            <img src="{{ product.image.url }}" alt="{{ product.title }}">
                         {% else %}
-                            <div class="product-img" style="background: #e2e8f0; display:flex; align-items:center; justify-content:center;">Немає фото</div>
+                            <div style="height:300px; background:#1e2029; display:flex; align-items:center; justify-content:center; color:#475569;">Зображення відсутнє</div>
                         {% endif %}
-                        <div class="product-title">{{ product.title }}</div>
-                        <div style="font-size: 0.9em; color: #64748b;">{{ product.category.name }}</div>
-                        <div class="product-price">{{ product.price }} ₴</div>
-                        <a href="{% url 'product' product.id %}" class="detail-btn">Переглянути</a>
+
+                        <div class="product-info">
+                            <h3 class="product-title">{{ product.title }}</h3>
+                            <span class="product-cat">{{ product.category.name }} | {{ product.brand.name }}</span>
+                            <div class="product-price">{{ product.price }} ₴</div>
+                            <a href="{% url 'product' product.id %}" class="details-btn">Детальніше</a>
+                        </div>
                     </div>
                 {% empty %}
-                    <p>Товарів поки немає.</p>
+                    <p style="text-align:center; grid-column: 1 / -1; font-size:1.2em; color:#64748b;">У цій категорії поки немає товарів.</p>
                 {% endfor %}
             </div>
-        {% else %}
+
+        {% elif content %}
+            <h1 style="color: white; margin-top: 0;">{{ title }}</h1>
             <div class="content-box">
-                <h1 style="margin-top:0; color: var(--dark);">{{ title }}</h1>
-                <p>{{ content }}</p>
+                {{ content }}
             </div>
         {% endif %}
+
     </div>
 
     <footer>
-        <h3 style="color: white; margin-bottom: 10px;">Дізнавайтесь про знижки першими!</h3>
-        <form class="subscribe-form" action="{% url 'subscribe' %}" method="POST">
-            {% csrf_token %}
-            <input type="email" name="email" placeholder="Ваш Email" required>
-            <button type="submit">Підписатися</button>
-        </form>
-        <p style="margin-top: 30px;">&copy; 2026 Меблі Волинь. Телефон: +380981771025 | Email: neblivolyn@gmail.com</p>
+        <p>&copy; 2026 StalLine. Всі права захищено.</p>
+        <p>Телефон: +380981771025 | Email: neblivolyn@gmail.com</p>
+
+        <div style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px;">
+            <p style="color: white; font-weight: bold; margin-bottom: 15px;">Підпишіться на наші новини:</p>
+            <form action="{% url 'subscribe' %}" method="POST" class="subscribe-form">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Ваш Email" required>
+                <button type="submit">Підписатися</button>
+            </form>
+        </div>
     </footer>
 
 </body>

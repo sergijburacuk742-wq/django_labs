@@ -30,7 +30,6 @@ class Brand(models.Model):
 
 
 # Таблиця 3: Товари
-# Таблиця 3: Товари
 class Product(models.Model):
     title = models.CharField(max_length=200, verbose_name="Назва товару")
 
@@ -81,3 +80,16 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Замовлення №{self.id} — {self.phone}"
+
+
+# Таблиця 7: Додаткові фото для галереї
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images', verbose_name="Товар")
+    image = models.ImageField(upload_to='products/gallery/', verbose_name="Додаткове фото")
+
+    class Meta:
+        verbose_name = "Додаткове фото"
+        verbose_name_plural = "Галерея фотографій"
+
+    def __str__(self):
+        return f"Фото для {self.product.title}"

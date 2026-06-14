@@ -4,40 +4,51 @@
     <meta charset="UTF-8">
     <title>{{ title }}</title>
     <style>
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; padding: 40px; margin: 0; color: #334155;}
-        .box { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        h1 { color: #1e293b; margin-top: 0; }
-        .order-card { border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; margin-bottom: 20px; background: #f8fafc; transition: 0.3s; }
-        .order-card:hover { border-color: #cbd5e1; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .btn { display: inline-block; padding: 12px 25px; background: #3b82f6; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s; margin-top: 20px;}
-        .btn:hover { background: #2563eb; }
-        .badge { display: inline-block; padding: 4px 10px; background: #fee2e2; color: #ef4444; border-radius: 20px; font-size: 12px; font-weight: bold; margin-top: 10px;}
+        html, body {
+            margin: 0 !important; padding: 0 !important;
+            background: linear-gradient(to bottom, #3b3f4c 0%, #22252e 100%);
+            background-attachment: fixed; font-family: 'Inter', sans-serif;
+            min-height: 100vh; color: #f8fafc;
+        }
+        .container { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+        .box { background: #2a2d37; padding: 50px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); }
+        h1 { color: white; margin-top: 0; }
+
+        .order-card { border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 16px; margin-bottom: 20px; background: #1a1c24; transition: 0.3s; }
+        .order-card:hover { border-color: rgba(255,255,255,0.15); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+        .btn { display: inline-block; padding: 14px 30px; background: white; color: #0f172a; text-decoration: none; border-radius: 12px; font-weight: bold; transition: 0.3s; margin-top: 20px;}
+        .btn:hover { background: #cbd5e1; transform: translateY(-2px);}
+
+        .badge { display: inline-block; padding: 6px 12px; background: rgba(239, 68, 68, 0.2); color: #ef4444; border-radius: 20px; font-size: 12px; font-weight: bold; margin-top: 15px;}
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1>{{ title }}</h1>
-        <p style="font-size: 1.1em;">Вітаємо, <b>{{ user.username }}</b>! (Email: {{ user.email }})</p>
-        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 30px 0;">
+    <div class="container">
+        <div class="box">
+            <h1>{{ title }}</h1>
+            <p style="font-size: 1.1em; color: #cbd5e1;">Вітаємо, <b style="color: white;">{{ user.username }}</b>! (Email: {{ user.email }})</p>
+            <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0;">
 
-        <h2 style="color: #1e293b;">Історія замовлень:</h2>
-        {% for order in orders %}
-            <div class="order-card">
-                <h3 style="margin-top: 0;">📦 Замовлення №{{ order.id }} <span style="color: #64748b; font-size: 0.8em; font-weight: normal;">({{ order.created_at|date:"d.m.Y H:i" }})</span></h3>
-                <p><b>Телефон:</b> {{ order.phone }}</p>
-                <p><b>Товари:</b> {{ order.products_summary }}</p>
-                <h3 style="color: #10b981; margin-bottom: 0;">Сума: {{ order.total_price }} ₴</h3>
-                {% if user.is_staff %}
-                    <span class="badge">Режим Адміністратора</span>
-                {% endif %}
-            </div>
-        {% empty %}
-            <div style="padding: 30px; text-align: center; background: #f1f5f9; border-radius: 12px; color: #64748b;">
-                Замовлень ще немає. Час щось обрати!
-            </div>
-        {% endfor %}
+            <h2 style="color: white;">Історія замовлень:</h2>
+            {% for order in orders %}
+                <div class="order-card">
+                    <h3 style="margin-top: 0; font-size: 1.2em;">Замовлення №{{ order.id }} <span style="color: #64748b; font-size: 0.8em; font-weight: normal;">({{ order.created_at|date:"d.m.Y H:i" }})</span></h3>
+                    <p style="color: #cbd5e1;"><b>Телефон:</b> <span style="color: white;">{{ order.phone }}</span></p>
+                    <p style="color: #cbd5e1;"><b>Товари:</b> <span style="color: white;">{{ order.products_summary }}</span></p>
+                    <h3 style="color: #10b981; margin-bottom: 0;">Сума: {{ order.total_price }} ₴</h3>
+                    {% if user.is_staff %}
+                        <span class="badge">Режим Адміністратора</span>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <div style="padding: 30px; text-align: center; background: #1a1c24; border-radius: 12px; color: #64748b;">
+                    Замовлень ще немає. Час щось обрати!
+                </div>
+            {% endfor %}
 
-        <a href="{% url 'home' %}" class="btn">← Повернутися в магазин</a>
+            <a href="{% url 'home' %}" class="btn">← Повернутися в магазин</a>
+        </div>
     </div>
 </body>
 </html>
