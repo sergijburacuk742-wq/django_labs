@@ -16,3 +16,9 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'brand', 'price', 'created_at', 'updated_at')
     # Додаємо фільтри збоку для зручності
     list_filter = ('category', 'brand')
+
+    from .models import Order
+
+    @admin.register(Order)
+    class OrderAdmin(admin.ModelAdmin):
+        list_display = ('id', 'user', 'phone', 'total_price', 'created_at')

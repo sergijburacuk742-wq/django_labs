@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Вхід</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .auth-card { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; text-align: left; }
+        .auth-card h2 { text-align: center; color: #1e293b; margin-top: 0; margin-bottom: 25px; font-size: 28px; }
+        input[type="text"], input[type="password"] {
+            width: 100%; padding: 12px; margin-top: 8px; margin-bottom: 20px;
+            border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;
+            font-size: 16px; transition: all 0.3s ease; outline: none;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        label { font-weight: 600; color: #475569; font-size: 14px; }
+        .btn-submit {
+            width: 100%; padding: 14px; background: #3b82f6; color: white; border: none;
+            border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer;
+            transition: all 0.3s ease; margin-top: 10px;
+        }
+        .btn-submit:hover {
+            background: #2563eb; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        .links { text-align: center; margin-top: 25px; font-size: 14px; display: flex; flex-direction: column; gap: 10px;}
+        .links a { color: #64748b; text-decoration: none; font-weight: 600; transition: color 0.3s ease; }
+        .links a:hover { color: #1e293b; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <h2>Вхід у систему</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-submit">Увійти</button>
+        </form>
+        <div class="links">
+            <a href="{% url 'password_reset' %}">Забули пароль?</a>
+            <a href="{% url 'register' %}" style="color: #3b82f6;">Немає акаунту? Реєстрація</a>
+        </div>
+    </div>
+</body>
+</html>
