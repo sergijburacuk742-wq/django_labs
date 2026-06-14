@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        :root { --primary: #3b82f6; --dark: #1e293b; --light: #f8fafc; --text: #334155; --accent: #10b981; }
+        body { font-family: 'Inter', system-ui, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; background-color: var(--light); color: var(--text); }
+
+        /* Хедер */
+        header { background-color: var(--dark); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100;}
+        header a { color: #cbd5e1; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.3s; }
+        header a:hover { color: white; }
+        .logo a { font-size: 24px; font-weight: 700; color: white; margin: 0; }
+        .cart-btn { background: var(--primary); padding: 8px 15px; border-radius: 8px; color: white!important; font-weight: bold; }
+
+        /* Меню категорій */
+        .categories-menu { background: white; padding: 15px 5%; border-bottom: 1px solid #e2e8f0; display: flex; gap: 15px; overflow-x: auto; }
+        .categories-menu a { color: var(--text); text-decoration: none; padding: 6px 12px; border-radius: 20px; background: #e2e8f0; font-size: 14px; transition: 0.3s; white-space: nowrap; }
+        .categories-menu a:hover { background: var(--primary); color: white; }
+
+        /* Банер */
+        .hero { background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%); color: white; padding: 60px 5%; text-align: center; border-radius: 16px; margin: 20px 5%; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .hero h2 { font-size: 2.5em; margin: 0 0 15px 0; }
+
+        /* Контент */
+        .container { flex: 1; padding: 20px 5%; max-width: 1400px; margin: 0 auto; width: 90%; }
+        .content-box { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); font-size: 1.1em; line-height: 1.6; white-space: pre-line;}
+
+        /* Картки */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
+        .product-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column;}
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .product-img { width: 100%; height: 220px; object-fit: cover; border-radius: 12px; margin-bottom: 15px; }
+        .product-title { font-size: 1.2em; font-weight: 700; margin-bottom: 5px; color: var(--dark); }
+        .product-price { color: var(--accent); font-size: 1.5em; font-weight: 800; margin: 15px 0; }
+        .detail-btn { background-color: var(--light); color: var(--dark); text-align: center; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: 0.3s; margin-top: auto; border: 1px solid #e2e8f0;}
+        .detail-btn:hover { background-color: var(--primary); color: white; border-color: var(--primary);}
+
+        /* Футер */
+        footer { background-color: var(--dark); color: #94a3b8; text-align: center; padding: 40px 5%; margin-top: auto; border-top: 4px solid var(--primary);}
+        .subscribe-form { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
+        .subscribe-form input { padding: 12px 20px; border-radius: 8px; border: none; width: 250px; outline: none; }
+        .subscribe-form button { padding: 12px 25px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s;}
+        .subscribe-form button:hover { background: #2563eb; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><a href="{% url 'home' %}">StalLine</a></div>
+<nav>
+    <a href="{% url 'home' %}">Головна</a>
+    <a href="{% url 'about' %}">Про нас</a>
+    <a href="{% url 'contacts' %}">Контакти</a>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" style="color: #60a5fa;">Кабінет ({{ user.username }})</a>
+        <form action="{% url 'logout' %}" method="POST" style="display:inline; margin-left:15px;">
+            {% csrf_token %}
+            <button type="submit" style="background:none; border:none; color:#cbd5e1; font-weight:500; cursor:pointer; font-size:16px;">Вийти</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">Увійти</a>
+        <a href="{% url 'register' %}">Реєстрація</a>
+    {% endif %}
+
+    <a href="{% url 'cart' %}" class="cart-btn">Кошик ({{ cart_count }})</a>
+</nav>
+    </header>
+
+    {% if is_home %}
+    <div class="categories-menu">
+        <span style="font-weight: 600; padding: 6px 0;">Каталог:</span>
+        <a href="{% url 'home' %}">Всі меблі</a>
+        {% for cat in categories %}
+            <a href="{% url 'category' cat.id %}">{{ cat.name }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="hero">
+        <h2>Створюємо затишок у вашому домі</h2>
+        <p style="font-size: 1.2em; max-width: 600px; margin: 0 auto; opacity: 0.9;">7 видів унікальних меблів преміум-якості від волинських майстрів.</p>
+    </div>
+    {% endif %}
+
+    <div class="container">
+        {% if is_home %}
+            <div class="product-grid">
+                {% for product in products %}
+                    <div class="product-card">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-img">
+                        {% else %}
+                            <div class="product-img" style="background: #e2e8f0; display:flex; align-items:center; justify-content:center;">Немає фото</div>
+                        {% endif %}
+                        <div class="product-title">{{ product.title }}</div>
+                        <div style="font-size: 0.9em; color: #64748b;">{{ product.category.name }}</div>
+                        <div class="product-price">{{ product.price }} ₴</div>
+                        <a href="{% url 'product' product.id %}" class="detail-btn">Переглянути</a>
+                    </div>
+                {% empty %}
+                    <p>Товарів поки немає.</p>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="content-box">
+                <h1 style="margin-top:0; color: var(--dark);">{{ title }}</h1>
+                <p>{{ content }}</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <h3 style="color: white; margin-bottom: 10px;">Дізнавайтесь про знижки першими!</h3>
+        <form class="subscribe-form" action="{% url 'subscribe' %}" method="POST">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Ваш Email" required>
+            <button type="submit">Підписатися</button>
+        </form>
+        <p style="margin-top: 30px;">&copy; 2026 Меблі Волинь. Телефон: +380981771025 | Email: neblivolyn@gmail.com</p>
+    </footer>
+
+</body>
+</html>

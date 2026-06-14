@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; text-align: center; }
+        .card { background: white; padding: 50px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px; }
+        .icon { font-size: 80px; margin-bottom: 20px; }
+        h1 { color: #1e293b; margin-top: 0; }
+        p { color: #64748b; font-size: 1.1em; line-height: 1.5; }
+        .btn { display: inline-block; margin-top: 25px; padding: 15px 30px; background: #3b82f6; color: white; text-decoration: none; border-radius: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon">🎉</div>
+        <h1>Дякуємо за замовлення!</h1>
+        <p>Ваша заявка успішно прийнята. Наш менеджер зателефонує вам найближчим часом на номер телефону для уточнення деталей доставки.</p>
+        <a href="{% url 'home' %}" class="btn">Повернутися на головну</a>
+    </div>
+</body>
+</html>
