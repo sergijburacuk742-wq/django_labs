@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-+%+c0$1wx)*tfo7#pvpp5--z8(e%p*=^%0%)rw26)ra8-2+hzs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -132,3 +132,5 @@ DEFAULT_FROM_EMAIL = 'neblivolyn@gmail.com'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
